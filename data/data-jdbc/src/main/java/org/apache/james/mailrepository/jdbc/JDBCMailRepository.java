@@ -86,7 +86,7 @@ import org.apache.mailet.MailAddress;
  * Requires a logger called MailRepository.
  * </p>
  * 
- * @version CVS $Revision$ $Date: 2010-12-29 21:47:46 +0100 (Wed, 29
+ * @version CVS $Revision: 1451435 $ $Date: 2010-12-29 21:47:46 +0100 (Wed, 29
  *          Dec 2010) $
  */
 public class JDBCMailRepository extends AbstractMailRepository {
