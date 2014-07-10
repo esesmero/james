@@ -1,0 +1,93 @@
+/****************************************************************
+ * Licensed to the Apache Software Foundation (ASF) under one   *
+ * or more contributor license agreements.  See the NOTICE file *
+ * distributed with this work for additional information        *
+ * regarding copyright ownership.  The ASF licenses this file   *
+ * to you under the Apache License, Version 2.0 (the            *
+ * "License"); you may not use this file except in compliance   *
+ * with the License.  You may obtain a copy of the License at   *
+ *                                                              *
+ *   http://www.apache.org/licenses/LICENSE-2.0                 *
+ *                                                              *
+ * Unless required by applicable law or agreed to in writing,   *
+ * software distributed under the License is distributed on an  *
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY       *
+ * KIND, either express or implied.  See the License for the    *
+ * specific language governing permissions and limitations      *
+ * under the License.                                           *
+ ****************************************************************/
+package org.apache.james.bond.client.manage.user;
+
+import org.apache.james.bond.client.manage.user.ManageUsersTabView.Presenter;
+import org.apache.james.bond.client.serverconnection.UserProxy;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
+
+/**
+ * A {@link DialogBox} that allows the confirmation that the user must be
+ * deleted
+ */
+public class DeleteConfirmationView extends DialogBox {
+
+  private static DeleteConfirmationViewUiBinder uiBinder = GWT
+      .create(DeleteConfirmationViewUiBinder.class);
+  private UserProxy user;
+  private Presenter listener;
+
+  interface DeleteConfirmationViewUiBinder extends
+      UiBinder<Widget, DeleteConfirmationView> {
+  }
+
+  /**
+   * It creates a {@link DeleteConfirmationView} to confirm to delete the user
+   * through the listener
+   * 
+   * @param user
+   * @param listener
+   */
+  public DeleteConfirmationView(UserProxy user, Presenter listener) {
+    this.user = user;
+    this.listener = listener;
+
+    setHTML("Delete user");
+    setWidget(uiBinder.createAndBindUi(this));
+    usernameLabel.setText(user.getUsername());
+  }
+
+  @UiField
+  Label usernameLabel;
+  @UiField
+  Button cancelButton;
+  @UiField
+  Button deleteButton;
+
+  /**
+   * It deletes the user from the server and closes the
+   * {@link DeleteConfirmationView}
+   * 
+   * @param e
+   */
+  @UiHandler("deleteButton")
+  void onChangeClick(ClickEvent e) {
+    listener.deleteUser(user);
+    this.hide();
+  }
+
+  /**
+   * It closes the {@link DeleteConfirmationView}
+   * 
+   * @param e
+   */
+  @UiHandler("cancelButton")
+  void onCancelClick(ClickEvent e) {
+    this.hide();
+  }
+}

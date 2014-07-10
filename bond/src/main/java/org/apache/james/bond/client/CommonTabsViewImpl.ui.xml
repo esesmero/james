@@ -1,0 +1,105 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+ -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:jb="urn:import:org.apache.james.bond.client.ui">
+
+	<ui:style src="style.css">
+
+    @external .gwt-TabLayoutPanelContent;
+	.gwt-TabLayoutPanelContent {
+		background-image: linear-gradient(bottom, rgb(219,224,252) 8%, rgb(255,255,255) 44%);
+		background-image: -o-linear-gradient(bottom, rgb(219,224,252) 8%, rgb(255,255,255) 44%);
+		background-image: -moz-linear-gradient(bottom, rgb(219,224,252) 8%, rgb(255,255,255) 44%);
+		background-image: -webkit-linear-gradient(bottom, rgb(219,224,252) 8%, rgb(255,255,255) 44%);
+		background-image: -ms-linear-gradient(bottom, rgb(219,224,252) 8%, rgb(255,255,255) 44%);
+	}
+    @external .gwt-Menubar;
+	.gwt-Menubar {
+		border-radius: 4px;
+	}
+    @external .gwt-MenuItem;
+    .gwt-MenuItem {
+        cursor: pointer !important;
+    }    
+    @external .gwt-TabLayoutPanelContentContainer;
+	.gwt-TabLayoutPanelContentContainer {
+        border-radius: 0px 0px 4px 4px;
+	}
+    .gwt-TabLayoutPanelContentContainer > div {
+        border-left: solid 1px lightblue;
+    }
+	
+    @external .gwt-Button;
+	.gwt-Button {
+		margin: 8px;
+	}
+    @sprite .jamesLogo {
+    	gwt-image: "jamesLogo";
+        background-size: auto 50px;
+    }
+    .jamesLogo {
+    	position: absolute;
+    	width: 200px;
+    	height: 55px;
+    }
+    .jamesbond {
+        float: right;
+        font-family: fantasy, helvetica;
+        font-size: large;
+        margin-top: 24px;
+        color: grey;
+    }
+    .jamesDisclaimer{
+    	font-family: Arial;
+        font-size: x-small;
+        text-align: center;
+        color: grey;
+    }
+    </ui:style>
+    <ui:image field="jamesLogo" src="james-server.gif"/>
+		
+	<g:DockLayoutPanel ui:field="mainPanel" unit='PX'>
+	    <g:east size="80">
+            <g:SimplePanel/>
+	    </g:east>
+        <g:west size="60">
+            <g:SimplePanel/>
+        </g:west>
+	    <g:north size="60">
+            <g:HTMLPanel>
+            <span class="{style.jamesLogo}"></span>
+            <span class="{style.jamesbond}">Apache James Bond</span>
+            </g:HTMLPanel>
+        </g:north>
+   		<g:north size="30">
+			<jb:MenuBar></jb:MenuBar>
+		</g:north>
+        <g:south size="30">
+            <g:HTMLPanel>
+             <div class="{style.jamesDisclaimer}">You're using <b>Bond</b> the web console for the <a href="http://james.apache.org" target="_blank">Apache-James</a> mail server.</div>
+            </g:HTMLPanel>
+        </g:south>
+   		<g:center>
+			<g:TabLayoutPanel ui:field="tabPanel" barUnit="PX"
+				barHeight="40">
+			</g:TabLayoutPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 
