@@ -40,7 +40,7 @@ import org.apache.james.cli.probe.impl.JmxServerProbe;
  */
 public abstract class JamesConnector {
   private static ServerProbe serverProbe;
-  
+
   public static ServerProbe getServerProbe() throws Exception {
     if (serverProbe == null) {
       try {
@@ -55,7 +55,7 @@ public abstract class JamesConnector {
 
   /**
    * It retrieves all the users from the server
-   * 
+   *
    * @return
    * @throws Exception
    *           if there is any problem
@@ -64,15 +64,16 @@ public abstract class JamesConnector {
     List<User> users = new ArrayList<User>();
 
     String[] usersArray = getServerProbe().listUsers();
-    for (String username : usersArray)
-      users.add(new User(username));
+    if (usersArray != null)
+      for (String username : usersArray)
+        users.add(new User(username));
 
     return users;
   }
-
+  
   /**
    * It adds a new user
-   * 
+   *
    * @param user
    * @throws Exception
    *           if there is a problem in the connection or the user cannot be
@@ -84,7 +85,7 @@ public abstract class JamesConnector {
 
   /**
    * It removes the user from the server
-   * 
+   *
    * @param user
    * @throws Exception
    *           if there is a problem in the connection or the user cannot be
@@ -96,7 +97,7 @@ public abstract class JamesConnector {
 
   /**
    * It substitute the user password for the new one
-   * 
+   *
    * @param user
    * @throws Exception
    *           if there is a problem
@@ -107,7 +108,7 @@ public abstract class JamesConnector {
 
   /**
    * It retrieves all the domains from the server
-   * 
+   *
    * @return
    * @throws Exception
    *           if there is any problem
@@ -116,15 +117,16 @@ public abstract class JamesConnector {
     List<Domain> domains = new ArrayList<Domain>();
 
     String[] domainsArray = getServerProbe().listDomains();
-    for (String domain : domainsArray)
-      domains.add(new Domain(domain));
+    if (domainsArray != null)
+      for (String domain : domainsArray)
+        domains.add(new Domain(domain));
 
     return domains;
   }
 
   /**
    * It retrieves all the domain in a {@link Map} from the server
-   * 
+   *
    * @return
    * @throws Exception
    *           if there is any problem
@@ -133,15 +135,16 @@ public abstract class JamesConnector {
     Map<String, Domain> domains = new HashMap<String, Domain>();
 
     String[] domainsArray = getServerProbe().listDomains();
-    for (String domain : domainsArray)
-      domains.put(domain, new Domain(domain));
+    if (domainsArray != null)
+      for (String domain : domainsArray)
+        domains.put(domain, new Domain(domain));
 
     return domains;
   }
 
   /**
    * It adds a new domain
-   * 
+   *
    * @param domain
    * @throws Exception
    *           if there is a problem in the connection or the domain cannot be
@@ -153,7 +156,7 @@ public abstract class JamesConnector {
 
   /**
    * It removes the domain from the server
-   * 
+   *
    * @param domain
    * @throws Exception
    *           if there is a problem in the connection or the domain cannot be
@@ -166,7 +169,7 @@ public abstract class JamesConnector {
   /**
    * It retrieves a Map that contains all mappings. The key is the user@domain
    * and the value is a Collection which holds all mappings for that key
-   * 
+   *
    * @return
    * @throws Exception
    */
@@ -177,7 +180,7 @@ public abstract class JamesConnector {
   /**
    * It retrieves a Map that contains all mappings. The key is the user@domain
    * and the value is a Collection which holds all mappings for that key
-   * 
+   *
    * @return
    * @throws Exception
    */
@@ -187,24 +190,25 @@ public abstract class JamesConnector {
 
     Collection<String> mappingsCollection;
     Set<String> mappingsSet;
-    for (String userAndDomain : map.keySet()) {
-      mappingsCollection = map.get(userAndDomain);
-
-      if (mappingsCollection instanceof Set) {
-        mappingsSet = (Set<String>) mappingsCollection;
-      } else {
-        mappingsSet = new HashSet<String>(mappingsCollection);
+    if (map != null)
+      for (String userAndDomain : map.keySet()) {
+        mappingsCollection = map.get(userAndDomain);
+  
+        if (mappingsCollection instanceof Set) {
+          mappingsSet = (Set<String>) mappingsCollection;
+        } else {
+          mappingsSet = new HashSet<String>(mappingsCollection);
+        }
+  
+        list.add(new Mapping(userAndDomain, mappingsSet));
       }
-
-      list.add(new Mapping(userAndDomain, mappingsSet));
-    }
 
     return list;
   }
 
   /**
    * It adds an address mapping
-   * 
+   *
    * @param user
    *          username, or null if no username should be used
    * @param domain
@@ -220,7 +224,7 @@ public abstract class JamesConnector {
 
   /**
    * Remove address mapping
-   * 
+   *
    * @param user
    *          username, or null if no username should be used
    * @param domain
@@ -237,7 +241,7 @@ public abstract class JamesConnector {
   /**
    * Return the explicit mapping stored for the given user and domain or null,
    * if no mapping was found
-   * 
+   *
    * @param user
    *          the username
    * @param domain
@@ -253,7 +257,7 @@ public abstract class JamesConnector {
 
   /**
    * It adds regex mapping
-   * 
+   *
    * @param user
    *          username, or null if no username should be used
    * @param domain
@@ -269,7 +273,7 @@ public abstract class JamesConnector {
 
   /**
    * Remove regex mapping for the given user and domain
-   * 
+   *
    * @param user
    *          username, or null if no username should be used
    * @param domain
