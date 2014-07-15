@@ -847,63 +847,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!-- The signing process excludes the artifact created by this plugin. 
-						The cause seems likely to be project type pom (not war). If this is the case 
-						then releasing the war would require reorganisation. -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<webResources>
-								<resource>
-									<directory>src/main/resources</directory>
-									<!-- override the destination directory for this resource -->
-									<targetPath>WEB-INF/conf/</targetPath>
-									<excludes>
-										<exclude>log4j.properties</exclude>
-										<exclude>**/lib/**</exclude>
-									</excludes>
-								</resource>
-								<resource>
-									<directory>src/main/resources</directory>
-									<!-- override the destination directory for this resource -->
-									<targetPath>WEB-INF/classes/</targetPath>
-									<includes>
-										<include>log4j.properties</include>
-									</includes>
-								</resource>
-								<resource>
-									<directory>src/main/config/war</directory>
-									<!-- override the destination directory for this resource -->
-									<targetPath>WEB-INF/conf/</targetPath>
-
-								</resource>
-								<resource>
-									<directory>src/main/licensing/war</directory>
-									<targetPath>META-INF</targetPath>
-									<excludes>
-										<exclude>licensing.xml</exclude>
-									</excludes>
-								</resource>
-								<resource>
-									<directory>.</directory>
-									<targetPath>META-INF</targetPath>
-									<includes>
-										<include>README*</include>
-									</includes>
-								</resource>
-							</webResources>
-						</configuration>
-						<executions>
-							<execution>
-								<id>make-war</id>
-								<phase>package</phase>
-								<goals>
-									<goal>war</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
