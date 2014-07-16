@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
-	license agreements. See the NOTICE file distributed with this work for additional 
-	information regarding copyright ownership. The ASF licenses this file to 
-	you under the Apache License, Version 2.0 (the "License"); you may not use 
-	this file except in compliance with the License. You may obtain a copy of 
-	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
-	by applicable law or agreed to in writing, software distributed under the 
-	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
-	OF ANY KIND, either express or implied. See the License for the specific 
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor
+	license agreements. See the NOTICE file distributed with this work for additional
+	information regarding copyright ownership. The ASF licenses this file to
+	you under the Apache License, Version 2.0 (the "License"); you may not use
+	this file except in compliance with the License. You may obtain a copy of
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+	by applicable law or agreed to in writing, software distributed under the
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+	OF ANY KIND, either express or implied. See the License for the specific
 	language governing permissions and limitations under the License. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -61,7 +61,7 @@
 		<!-- Use filesystem to copy message by default -->
 		<james.system-property1>-Djames.message.usememorycopy=false</james.system-property1>
 		<james.system-properties>${james.system-property1}</james.system-properties>
-		<!-- this name is used for James's folders on Debian systems and james 
+		<!-- this name is used for James's folders on Debian systems and james
 			user -->
 		<james.debian.user>apache-james</james.debian.user>
 
@@ -148,7 +148,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Runtime dependencies which will get included in the generated binary 
+		<!-- Runtime dependencies which will get included in the generated binary
 			distribution -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -374,9 +374,9 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Comment jackrabbit dependency to avoid lucene version clash with mailbox-lucene 
-			(JAMES-1297) <dependency> <groupId>org.apache.jackrabbit</groupId> <artifactId>jackrabbit-core</artifactId> 
-			<scope>runtime</scope> <exclusions> <exclusion> <groupId>jdom</groupId> <artifactId>jdom</artifactId> 
+		<!-- Comment jackrabbit dependency to avoid lucene version clash with mailbox-lucene
+			(JAMES-1297) <dependency> <groupId>org.apache.jackrabbit</groupId> <artifactId>jackrabbit-core</artifactId>
+			<scope>runtime</scope> <exclusions> <exclusion> <groupId>jdom</groupId> <artifactId>jdom</artifactId>
 			</exclusion> </exclusions> </dependency> -->
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -523,6 +523,7 @@
 			<artifactId>bond</artifactId>
 			<type>war</type>
 			<version>1.0-SNAPSHOT</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
@@ -549,7 +550,7 @@
 						<artifactId>appassembler-maven-plugin</artifactId>
 						<version>1.0</version>
 						<configuration>
-							<!-- Include etc/ in the beginning of the classpath declaration in 
+							<!-- Include etc/ in the beginning of the classpath declaration in
 								the bin scripts -->
 							<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
 							<configurationDirectory>conf</configurationDirectory>
@@ -571,7 +572,7 @@
 							<programs>
 								<program>
 									<mainClass>org.apache.james.app.spring.JamesAppSpringMain</mainClass>
-									<!-- call it only run because appassemble will add .bat by default 
+									<!-- call it only run because appassemble will add .bat by default
 										on windows -->
 									<name>run</name>
 									<!-- Only generate windows bat script for this application -->
@@ -588,12 +589,12 @@
 									</platforms>
 								</program>
 
-								<!-- This create the scripts for the command line administration 
-									client. Maybe this should better be moved to the cli module, but I'm not 
+								<!-- This create the scripts for the command line administration
+									client. Maybe this should better be moved to the cli module, but I'm not
 									sure yet -->
 								<program>
 									<mainClass>org.apache.james.cli.ServerCmd</mainClass>
-									<!-- call it only run because appassemble will add .bat by default 
+									<!-- call it only run because appassemble will add .bat by default
 										on windows -->
 									<name>james-cli</name>
 									<!-- Only generate windows bat script for this application -->
@@ -618,41 +619,41 @@
 										<commandLineArgument>start</commandLineArgument>
 									</commandLineArguments>
 									<platforms>
-										<!-- ======================================================================= 
-											JSW relies on software licensed under the following "Tanuki Software License" 
-											BEGIN Tanuki Software License ========================================= Copyright 
-											(c) 1999, 2006 Tanuki Software, Inc. Permission is hereby granted, free of 
-											charge, to any person obtaining a copy of the Java Service Wrapper and associated 
-											documentation files (the "Software"), to deal in the Software without restriction, 
-											including without limitation the rights to use, copy, modify, merge, publish, 
-											distribute, sub-license, and/or sell copies of the Software, and to permit 
-											persons to whom the Software is furnished to do so, subject to the following 
-											conditions: The above copyright notice and this permission notice shall be 
-											included in all copies or substantial portions of the Software. THE SOFTWARE 
-											IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
-											BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
-											PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-											HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN 
-											ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
-											WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. Portions 
-											of the Software have been derived from source code developed by Silver Egg 
-											Technology under the following license: BEGIN Silver Egg Techology License 
-											================================= Copyright (c) 2001 Silver Egg Technology 
-											Permission is hereby granted, free of charge, to any person obtaining a copy 
-											of this software and associated documentation files (the "Software"), to 
-											deal in the Software without restriction, including without limitation the 
-											rights to use, copy, modify, merge, publish, distribute, sub-license, and/or 
-											sell copies of the Software, and to permit persons to whom the Software is 
-											furnished to do so, subject to the following conditions: The above copyright 
-											notice and this permission notice shall be included in all copies or substantial 
-											portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY 
-											OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
-											OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. 
-											IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-											DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
-											ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-											DEALINGS IN THE SOFTWARE. END Silver Egg Techology License ===================================== 
-											END Tanuki Software License ============================================ 
+										<!-- =======================================================================
+											JSW relies on software licensed under the following "Tanuki Software License"
+											BEGIN Tanuki Software License ========================================= Copyright
+											(c) 1999, 2006 Tanuki Software, Inc. Permission is hereby granted, free of
+											charge, to any person obtaining a copy of the Java Service Wrapper and associated
+											documentation files (the "Software"), to deal in the Software without restriction,
+											including without limitation the rights to use, copy, modify, merge, publish,
+											distribute, sub-license, and/or sell copies of the Software, and to permit
+											persons to whom the Software is furnished to do so, subject to the following
+											conditions: The above copyright notice and this permission notice shall be
+											included in all copies or substantial portions of the Software. THE SOFTWARE
+											IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+											BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+											PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+											HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+											ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+											WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. Portions
+											of the Software have been derived from source code developed by Silver Egg
+											Technology under the following license: BEGIN Silver Egg Techology License
+											================================= Copyright (c) 2001 Silver Egg Technology
+											Permission is hereby granted, free of charge, to any person obtaining a copy
+											of this software and associated documentation files (the "Software"), to
+											deal in the Software without restriction, including without limitation the
+											rights to use, copy, modify, merge, publish, distribute, sub-license, and/or
+											sell copies of the Software, and to permit persons to whom the Software is
+											furnished to do so, subject to the following conditions: The above copyright
+											notice and this permission notice shall be included in all copies or substantial
+											portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY
+											OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+											OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+											IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+											DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+											ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+											DEALINGS IN THE SOFTWARE. END Silver Egg Techology License =====================================
+											END Tanuki Software License ============================================
 											======================================================================== -->
 										<platform>jsw</platform>
 									</platforms>
@@ -673,7 +674,7 @@
 											</includes>
 
 											<configuration>
-												<!-- add to to the classpath in this order: config files, james 
+												<!-- add to to the classpath in this order: config files, james
 													jars, user jars. -->
 												<property>
 													<name>configuration.directory.in.classpath.first</name>
@@ -791,15 +792,15 @@
 								<configuration>
 
 									<tasks>
-										<!-- this is only needed because windows freak out on long cmd 
-											lines, so we strip of the absolute path from the lib dir to make windows 
+										<!-- this is only needed because windows freak out on long cmd
+											lines, so we strip of the absolute path from the lib dir to make windows
 											happy again -->
 										<replace file="${project.build.directory}/appassembler/bin/run.bat"
 											token="%BASEDIR%\lib" value="..\lib" />
 										<replace file="${project.build.directory}/appassembler/bin/run.sh"
 											token="setenv" value="setenv.sh" />
 
-										<!-- this is needed because appassembler is not really smart on 
+										<!-- this is needed because appassembler is not really smart on
 											some settings -->
 										<replace
 											file="${project.build.directory}/appassembler/jsw/james/conf/wrapper.conf"
@@ -808,13 +809,13 @@
 											file="${project.build.directory}/appassembler/jsw/james/bin/james"
 											token="logs" value="var" />
 
-										<!-- copy the linux wrapper-linux-x86-32 to wrapper, so use it 
+										<!-- copy the linux wrapper-linux-x86-32 to wrapper, so use it
 											as default if no matching wrapper was found -->
 										<copy
 											file="${project.build.directory}/appassembler/jsw/james/bin/wrapper-linux-x86-32"
 											tofile="${project.build.directory}/appassembler/jsw/james/bin/wrapper" />
-										<!-- this is only needed because windows freak out on long cmd 
-											lines, so we strip of the absolute path from the lib dir to make windows 
+										<!-- this is only needed because windows freak out on long cmd
+											lines, so we strip of the absolute path from the lib dir to make windows
 											happy again -->
 										<replace
 											file="${project.build.directory}/appassembler/bin/james-cli.bat"
@@ -843,63 +844,6 @@
 								<phase>package</phase>
 								<goals>
 									<goal>attached</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<!-- The signing process excludes the artifact created by this plugin. 
-						The cause seems likely to be project type pom (not war). If this is the case 
-						then releasing the war would require reorganisation. -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<webResources>
-								<resource>
-									<directory>src/main/resources</directory>
-									<!-- override the destination directory for this resource -->
-									<targetPath>WEB-INF/conf/</targetPath>
-									<excludes>
-										<exclude>log4j.properties</exclude>
-										<exclude>**/lib/**</exclude>
-									</excludes>
-								</resource>
-								<resource>
-									<directory>src/main/resources</directory>
-									<!-- override the destination directory for this resource -->
-									<targetPath>WEB-INF/classes/</targetPath>
-									<includes>
-										<include>log4j.properties</include>
-									</includes>
-								</resource>
-								<resource>
-									<directory>src/main/config/war</directory>
-									<!-- override the destination directory for this resource -->
-									<targetPath>WEB-INF/conf/</targetPath>
-
-								</resource>
-								<resource>
-									<directory>src/main/licensing/war</directory>
-									<targetPath>META-INF</targetPath>
-									<excludes>
-										<exclude>licensing.xml</exclude>
-									</excludes>
-								</resource>
-								<resource>
-									<directory>.</directory>
-									<targetPath>META-INF</targetPath>
-									<includes>
-										<include>README*</include>
-									</includes>
-								</resource>
-							</webResources>
-						</configuration>
-						<executions>
-							<execution>
-								<id>make-war</id>
-								<phase>package</phase>
-								<goals>
-									<goal>war</goal>
 								</goals>
 							</execution>
 						</executions>
@@ -971,7 +915,7 @@
 		<profile>
 			<id>with-jetm</id>
 			<activation>
-				<!-- remember to comment out the jetm-monitoring import line from spring-server.xml 
+				<!-- remember to comment out the jetm-monitoring import line from spring-server.xml
 					if you de-activate this -->
 				<activeByDefault>true</activeByDefault>
 			</activation>

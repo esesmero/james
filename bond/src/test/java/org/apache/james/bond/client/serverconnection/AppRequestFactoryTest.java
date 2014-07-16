@@ -31,6 +31,7 @@ import org.apache.james.bond.TestConst;
 import org.apache.james.bond.client.ioc.ClientFactory;
 import org.apache.james.bond.client.ioc.ClientFactoryTestImpl;
 import org.apache.james.bond.client.serverconnection.AppRequestFactory.DnsRequest;
+import org.apache.james.bond.client.serverconnection.AppRequestFactory.DomainRequest;
 import org.apache.james.bond.client.serverconnection.AppRequestFactory.Pop3Request;
 import org.apache.james.bond.client.serverconnection.AppRequestFactory.SmtpRequest;
 import org.apache.james.bond.client.serverconnection.AppRequestFactory.UserRequest;
@@ -53,9 +54,11 @@ public class AppRequestFactoryTest {
 
   @Test
   public void userFunctionalityTest() {
+    addDomain();
     clearUser();
     addUser();
     removeUser();
+    removeDomain();
   }
 
   private void clearUser() {
@@ -86,6 +89,25 @@ public class AppRequestFactoryTest {
       }
     };
     requestFactory.createUserRequest().listUsers().fire(rec);
+  }
+
+  private void addDomain() {
+    DomainRequest context = requestFactory.createDomainRequest();
+    DomainProxy domain = context.create(DomainProxy.class);
+    domain.setDomain("yo.es");
+    context.persist(domain).fire();
+  }
+
+  private void removeDomain() {
+    requestFactory.createDomainRequest().listDomains().fire(new Receiver<List<DomainProxy>>() {
+      public void onSuccess(List<DomainProxy> response) {
+        for (DomainProxy c : response) {
+          if (c.getDomain().equals("yo.es")) {
+            requestFactory.createDomainRequest().remove(c).fire();
+          }
+        }
+      }
+    });
   }
 
   private void addUser() {

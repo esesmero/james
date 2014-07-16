@@ -21,7 +21,7 @@
 	<inherits name='com.google.gwt.user.User' />
 	<inherits name='com.google.gwt.query.Query' />
 <!-- 	<inherits name='com.google.gwt.user.theme.chrome.Chrome' /> -->
-    <inherits name='com.google.gwt.user.theme.clean.Clean' />
+	<inherits name='com.google.gwt.user.theme.clean.Clean' />
 	<inherits name="com.google.web.bindery.requestfactory.RequestFactory" />
 
 	<inherits name="com.google.gwt.validation.Validation" />
@@ -44,7 +44,9 @@
 	</replace-with>
 	
 	<set-property name="ClientBundle.enableInlining" value="false" /> 
-    <set-configuration-property name="ClientBundle.enableRenaming" value="true" />
+	<set-configuration-property name="ClientBundle.enableRenaming" value="true" />
     
 	<source path="client" />
+
+	<collapse-all-properties />
 </module>

@@ -18,6 +18,10 @@
  ****************************************************************/
 package org.apache.james.app.spring;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Calendar;
 
 import org.apache.commons.daemon.Daemon;
@@ -41,11 +45,13 @@ public class JamesAppSpringMain implements Daemon {
         JamesAppSpringMain main = new JamesAppSpringMain();
         main.init(null);
 
+        main.initBondConsole();
+
         long end = Calendar.getInstance().getTimeInMillis();
-
         log.info("Apache James Server is successfully started in " + (end - start) + " milliseconds.");
-
     }
+
+
 
     /**
      * @see org.apache.commons.daemon.Daemon#destroy()
@@ -79,4 +85,44 @@ public class JamesAppSpringMain implements Daemon {
         }
     }
 
+    private void initBondConsole() throws Exception {
+        System.err.println(System.getProperty("sun.java.command"));
+        File lib = new File("../lib");
+        File conf = new File("../conf");
+        if (lib.isDirectory() && conf.isDirectory()) {
+            for (File f : lib.listFiles()) {
+                if (f.getName().startsWith("bond") && f.getName().endsWith(".war")) {
+                    final Process bond = Runtime.getRuntime().exec("java -Djames.conf=" + conf + " -jar " + f);
+                    new Thread(){
+                        public void run() {
+                            connectStreams(bond.getInputStream(), System.out);
+                        }
+                    }.start();
+                    new Thread(){
+                        public void run() {
+                            connectStreams(bond.getErrorStream(), System.err);
+                        }
+                    }.start();
+                    Runtime.getRuntime().addShutdownHook(new Thread(){
+                        public void run() {
+                            bond.destroy();
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
+
+    private void connectStreams(InputStream is, PrintStream os) {
+        int d;
+        try {
+            while ((d = is.read()) != -1) {
+                os.write(d);
+            }
+        } catch (IOException e) {
+            // Just print the error but not break the app
+            e.printStackTrace();
+        }
+    }
 }
