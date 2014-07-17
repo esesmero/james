@@ -96,6 +96,7 @@
         <module>queue/queue-activemq</module>
         
         <module>bond</module>
+        <module>hupa</module>
     </modules>
 
     <scm>
