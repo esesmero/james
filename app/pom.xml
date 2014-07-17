@@ -68,6 +68,8 @@
 		<bond.system-property>-DinitBond=true</bond.system-property>
 		<bond.system-properties>${bond.system-property}</bond.system-properties>
 
+		<hupa.system-property>-DinitHupa=true</hupa.system-property>
+		<hupa.system-properties>${hupa.system-property}</hupa.system-properties>
 	</properties>
 
 	<dependencies>
@@ -573,7 +575,7 @@
 							<extraJvmArguments>${jvm.system-property1} -Xms128m -Xmx512m
 								${jmx.system-properties}
 								${javamail.system-properties} ${james.system-properties}
-								${bond.system-properties}
+								${bond.system-properties} ${hupa.system-properties}
 							</extraJvmArguments>
 							<!-- Generate bin scripts for windows and unix per default -->
 							<platforms>
@@ -778,6 +780,10 @@
 												<property>
 													<name>wrapper.java.additional.15</name>
 													<value>${bond.system-property}</value>
+												</property>
+												<property>
+													<name>wrapper.java.additional.16</name>
+													<value>${hupa.system-property}</value>
 												</property>
 											</configuration>
 										</generatorConfiguration>

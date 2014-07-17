@@ -93,10 +93,8 @@ public class JamesAppSpringMain implements Daemon {
 	}
 	
 	private void initHupa() throws Exception {
-		if(System.getProperty("initHupa", "true").equals("true")){
-			System.out.println();
+		if(System.getProperty("initHupa", "false").equals("true"))
 			initProcess("hupa");
-		}
 	}
 
 	private void initProcess(final String nameProcess) throws Exception {
@@ -113,7 +111,6 @@ public class JamesAppSpringMain implements Daemon {
 			};
 
 			for (File f : lib.listFiles(warFilter)) {
-				System.out.println("Starting " + f.getName());
 				final Process process = Runtime.getRuntime().exec(
 						"java -Djames.conf=" + conf + " -jar " + f);
 				new Thread() {
