@@ -284,6 +284,7 @@
                             <outputDirectory>
                                 ${project.build.directory}/${project.artifactId}-${project.version}
                             </outputDirectory>
+                            <excludes>**\/*.SF,**\/*.DSA,**\/*.RSA</excludes>
                         </configuration>
                     </execution>
                     <execution>
