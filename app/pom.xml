@@ -64,6 +64,9 @@
 		<!-- this name is used for James's folders on Debian systems and james
 			user -->
 		<james.debian.user>apache-james</james.debian.user>
+		
+		<bond.system-property>-DinitBond=true</bond.system-property>
+		<bond.system-properties>${bond.system-property}</bond.system-properties>
 
 	</properties>
 
@@ -563,6 +566,7 @@
 							<extraJvmArguments>${jvm.system-property1} -Xms128m -Xmx512m
 								${jmx.system-properties}
 								${javamail.system-properties} ${james.system-properties}
+								${bond.system-properties}
 							</extraJvmArguments>
 							<!-- Generate bin scripts for windows and unix per default -->
 							<platforms>
@@ -763,6 +767,10 @@
 												<property>
 													<name>wrapper.java.additional.14</name>
 													<value>${james.system-property1}</value>
+												</property>
+												<property>
+													<name>wrapper.java.additional.15</name>
+													<value>${bond.system-property}</value>
 												</property>
 											</configuration>
 										</generatorConfiguration>

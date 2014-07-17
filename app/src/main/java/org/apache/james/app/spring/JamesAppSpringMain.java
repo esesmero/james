@@ -44,7 +44,7 @@ public class JamesAppSpringMain implements Daemon {
 
         JamesAppSpringMain main = new JamesAppSpringMain();
         main.init(null);
-
+        
         main.initBondConsole();
 
         long end = Calendar.getInstance().getTimeInMillis();
@@ -89,7 +89,7 @@ public class JamesAppSpringMain implements Daemon {
         System.err.println(System.getProperty("sun.java.command"));
         File lib = new File("../lib");
         File conf = new File("../conf");
-        if (lib.isDirectory() && conf.isDirectory()) {
+        if (lib.isDirectory() && conf.isDirectory() && System.getProperty("initBond", "false").equals("true")) {
             for (File f : lib.listFiles()) {
                 if (f.getName().startsWith("bond") && f.getName().endsWith(".war")) {
                     final Process bond = Runtime.getRuntime().exec("java -Djames.conf=" + conf + " -jar " + f);
