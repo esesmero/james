@@ -19,6 +19,7 @@
 package org.apache.james.app.spring;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -35,94 +36,114 @@ import org.slf4j.LoggerFactory;
  */
 public class JamesAppSpringMain implements Daemon {
 
-    private static final Logger log = LoggerFactory.getLogger(JamesAppSpringMain.class.getName());
-    private JamesServerApplicationContext context;
+	private static final Logger log = LoggerFactory
+			.getLogger(JamesAppSpringMain.class.getName());
+	private JamesServerApplicationContext context;
 
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
-        long start = Calendar.getInstance().getTimeInMillis();
+		long start = Calendar.getInstance().getTimeInMillis();
 
-        JamesAppSpringMain main = new JamesAppSpringMain();
-        main.init(null);
-        
-        main.initBondConsole();
+		JamesAppSpringMain main = new JamesAppSpringMain();
+		main.init(null);
 
-        long end = Calendar.getInstance().getTimeInMillis();
-        log.info("Apache James Server is successfully started in " + (end - start) + " milliseconds.");
-    }
+		main.initBondConsole();
+		main.initHupa();
 
+		long end = Calendar.getInstance().getTimeInMillis();
+		log.info("Apache James Server is successfully started in "
+				+ (end - start) + " milliseconds.");
+	}
 
+	/**
+	 * @see org.apache.commons.daemon.Daemon#destroy()
+	 */
+	public void destroy() {
+	}
 
-    /**
-     * @see org.apache.commons.daemon.Daemon#destroy()
-     */
-    public void destroy() {
-    }
+	/**
+	 * @see org.apache.commons.daemon.Daemon#init(org.apache.commons.daemon.DaemonContext)
+	 */
+	public void init(DaemonContext arg0) throws Exception {
+		context = new JamesServerApplicationContext(
+				new String[] { "META-INF/org/apache/james/spring-server.xml" });
+		context.registerShutdownHook();
+		context.start();
+	}
 
-    /**
-     * @see
-     * org.apache.commons.daemon.Daemon#init(org.apache.commons.daemon.DaemonContext)
-     */
-    public void init(DaemonContext arg0) throws Exception {
-        context = new JamesServerApplicationContext(new String[] { "META-INF/org/apache/james/spring-server.xml" });
-        context.registerShutdownHook();
-        context.start();
-    }
+	/**
+	 * @see org.apache.commons.daemon.Daemon#start()
+	 */
+	public void start() throws Exception {
+		context.start();
+	}
 
-    /**
-     * @see org.apache.commons.daemon.Daemon#start()
-     */
-    public void start() throws Exception {
-        context.start();
-    }
+	/**
+	 * @see org.apache.commons.daemon.Daemon#stop()
+	 */
+	public void stop() throws Exception {
+		if (context != null) {
+			context.stop();
+		}
+	}
 
-    /**
-     * @see org.apache.commons.daemon.Daemon#stop()
-     */
-    public void stop() throws Exception {
-        if (context != null) {
-            context.stop();
-        }
-    }
+	private void initBondConsole() throws Exception {
+		if(System.getProperty("initBond", "false").equals("true"))
+			initProcess("bond");
+	}
+	
+	private void initHupa() throws Exception {
+		if(System.getProperty("initHupa", "true").equals("true")){
+			System.out.println();
+			initProcess("hupa");
+		}
+	}
 
-    private void initBondConsole() throws Exception {
-        System.err.println(System.getProperty("sun.java.command"));
-        File lib = new File("../lib");
-        File conf = new File("../conf");
-        if (lib.isDirectory() && conf.isDirectory() && System.getProperty("initBond", "false").equals("true")) {
-            for (File f : lib.listFiles()) {
-                if (f.getName().startsWith("bond") && f.getName().endsWith(".war")) {
-                    final Process bond = Runtime.getRuntime().exec("java -Djames.conf=" + conf + " -jar " + f);
-                    new Thread(){
-                        public void run() {
-                            connectStreams(bond.getInputStream(), System.out);
-                        }
-                    }.start();
-                    new Thread(){
-                        public void run() {
-                            connectStreams(bond.getErrorStream(), System.err);
-                        }
-                    }.start();
-                    Runtime.getRuntime().addShutdownHook(new Thread(){
-                        public void run() {
-                            bond.destroy();
-                        }
-                    });
-                    break;
-                }
-            }
-        }
-    }
+	private void initProcess(final String nameProcess) throws Exception {
+		System.err.println(System.getProperty("sun.java.command"));
+		File lib = new File("../lib");
+		File conf = new File("../conf");
+		if (lib.isDirectory() && conf.isDirectory()) {
+			FilenameFilter warFilter = new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.startsWith(nameProcess)
+							&& name.endsWith(".war");
+				}
+			};
 
-    private void connectStreams(InputStream is, PrintStream os) {
-        int d;
-        try {
-            while ((d = is.read()) != -1) {
-                os.write(d);
-            }
-        } catch (IOException e) {
-            // Just print the error but not break the app
-            e.printStackTrace();
-        }
-    }
+			for (File f : lib.listFiles(warFilter)) {
+				System.out.println("Starting " + f.getName());
+				final Process process = Runtime.getRuntime().exec(
+						"java -Djames.conf=" + conf + " -jar " + f);
+				new Thread() {
+					public void run() {
+						connectStreams(process.getInputStream(), System.out);
+					}
+				}.start();
+				new Thread() {
+					public void run() {
+						connectStreams(process.getErrorStream(), System.err);
+					}
+				}.start();
+				Runtime.getRuntime().addShutdownHook(new Thread() {
+					public void run() {
+						process.destroy();
+					}
+				});
+			}
+		}
+	}
+
+	private void connectStreams(InputStream is, PrintStream os) {
+		int d;
+		try {
+			while ((d = is.read()) != -1) {
+				os.write(d);
+			}
+		} catch (IOException e) {
+			// Just print the error but not break the app
+			e.printStackTrace();
+		}
+	}
 }

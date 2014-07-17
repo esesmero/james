@@ -9,14 +9,14 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-                <james>3.0-beta4</james>
+		<james>3.0-beta4</james>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<gQueryVersion>1.3.2</gQueryVersion>
 		<gwtversion>2.6.1</gwtversion>
 		<gwtmaven>2.6.1</gwtmaven>
-                <jetty.version>8.1.6.v20120903</jetty.version>
+		<jetty.version>8.1.6.v20120903</jetty.version>
 	</properties>
 
 	<repositories>
